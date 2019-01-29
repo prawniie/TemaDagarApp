@@ -27,24 +27,24 @@ namespace TemaDagarApp.Controllers
 
 
         [Route("temadagar/GetThemeDay"), HttpGet]
-        public IActionResult GetThemeDay(TemaDag temaDag)
+        public IActionResult GetThemeDay(DateTime date)
         {
 
             foreach (var day in list)
             {
-                if (day.Date == temaDag.Date)
+                if (day.Date == date)
                 {
-                    return Ok($"Den {temaDag.Date.ToShortDateString()} är det {day.Name}");
+                    return Ok($"Den {date.ToShortDateString()} är det {day.Name}");
                 }
 
                 else
                 {
-                    return BadRequest($"Sorry det finns ingen temadag på datumet {temaDag.Date.ToShortDateString()}");
+                    return BadRequest($"Sorry det finns ingen temadag på datumet {date.ToShortDateString()}");
                 }
 
             }
 
-            return Ok($"Den {temaDag.Date} är det {temaDag.Name} dag");
+            return Ok($"Den {date} är det XX dag");
 
         }
     }

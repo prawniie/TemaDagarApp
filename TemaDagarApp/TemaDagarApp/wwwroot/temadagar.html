@@ -2,13 +2,17 @@
 <html>
 <head>
     <title>temadagar</title>
+    <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
-    <form method="get" action="temadagar/getthemeday">
-        Välj ett datum: <input name="Date" type="datetime"/>
-        <button>Ok</button>
-    </form>
+    <label>Välj ett datum: </label>
+    <input id="date" name="Date" type="datetime" />
+    <button onclick="GetThemeDay()">Ok</button>
 
-    <div id="result"></div>
+    <div id="result" style="color:green"></div>
+    <div id="error" style="color:red"></div>
+
+    <script src="js/temadagar.js"></script>
+
 </body>
 </html>
