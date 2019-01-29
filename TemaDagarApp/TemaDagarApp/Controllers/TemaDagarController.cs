@@ -8,27 +8,56 @@ using TemaDagarApp.Models;
 
 namespace TemaDagarApp.Controllers
 {
+
     public class TemaDagarController : Controller
     {
 
-        List<TemaDag> list = new List<TemaDag>() {
+        //List<TemaDag> list = new List<TemaDag>() {
 
-         new TemaDag
+        // new TemaDag
+        //{
+        //    Name = "Kanelbullens dag",
+        //    Date = new DateTime(2019, 1, 21)
+        //},
+        // new TemaDag
+        //{
+        //    Name = "Kladdkakans dag",
+        //    Date = new DateTime(2019, 2, 24)
+        //}
+        //};
+
+
+
+        public List<TemaDag> CreateListOfThemeDays()
         {
-            Name = "Kanelbullens dag",
-            Date = new DateTime(2019, 1, 21)
-        },
-         new TemaDag
-        {
-            Name = "Kladdkakans dag",
-            Date = new DateTime(2019, 2, 24)
+            List<TemaDag> listOfDays = new List<TemaDag>();
+
+            string[] lines = System.IO.File.ReadAllLines(@"..\TemaDagarApp\temadagar.txt");
+
+            //C:\Project\AcceleratedLearning\SquareRootApp\TemaDagarApp\TemaDagarApp\temadagar.txt
+            //'Could not find file 'C:\Project\AcceleratedLearning\SquareRootApp\TemaDagarApp\temadagar.txt'.'
+
+            foreach (var item in lines)
+            {
+                string[] eachDay = item.Split(',');
+                TemaDag dag = new TemaDag
+                {
+                    Date = Convert.ToDateTime(eachDay[0]),
+                    Name = eachDay[1]
+                };
+                listOfDays.Add(dag);
+            }
+            return listOfDays;
         }
-        };
+
+
 
 
         [Route("temadagar/GetThemeDay"), HttpGet]
         public IActionResult GetThemeDay(DateTime date)
         {
+
+            List<TemaDag> list = CreateListOfThemeDays();
 
             foreach (var day in list)
             {
@@ -37,14 +66,10 @@ namespace TemaDagarApp.Controllers
                     return Ok($"Den {date.ToShortDateString()} är det {day.Name}");
                 }
 
-                else
-                {
-                    return BadRequest($"Sorry det finns ingen temadag på datumet {date.ToShortDateString()}");
-                }
-
             }
 
-            return Ok($"Den {date} är det XX dag");
+            return BadRequest($"Sorry det finns ingen temadag på datumet {date.ToShortDateString()}");
+
 
         }
     }
